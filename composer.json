@@ -22,10 +22,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Bertshang\\dictionary\\DictionaryServiceProvider"
+                "Bertshang\\Dictionary\\DictionaryServiceProvider"
             ],
             "aliases": {
-                "Option": "Bertshang\\dictionary\\DictionaryFacade"
+                "Option": "Bertshang\\Dictionary\\DictionaryFacade"
             }
         }
     }
