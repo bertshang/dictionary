@@ -1,0 +1,19 @@
+{
+    "name": "bertshang\/dictionary",
+    "description": "a dictionary package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "bertshang",
+            "email": "bert150@sina.cn"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bertshang\\Dictionary\\": "src"
+        }
+    }
+}
