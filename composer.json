@@ -12,8 +12,21 @@
         "php": ">=7.0"
     },
     "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
         "psr-4": {
             "Bertshang\\Dictionary\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Bertshang\\dictionary\\DictionaryServiceProvider"
+            ],
+            "aliases": {
+                "Option": "Bertshang\\dictionary\\DictionaryFacade"
+            }
         }
     }
 }
