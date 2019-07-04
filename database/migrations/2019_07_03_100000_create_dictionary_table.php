@@ -55,7 +55,8 @@ class CreateDictionaryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dicttype');
-        Schema::dropIfExists('dictinfo');
+        Schema::dropIfExists('dicttypes');
+        Schema::dropIfExists('dicttags');
+        Schema::dropIfExists('dictinfos');
     }
 }

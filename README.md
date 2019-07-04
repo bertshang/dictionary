@@ -2,7 +2,8 @@
 
 <p align="center"> a dictionary package.</p>
 
-
+[![Build Status](https://travis-ci.org/bertshang/dictionary.svg?branch=master)](https://travis-ci.org/bertshang/dictionary)
+[![StyleCI](https://github.styleci.io/repos/195039183/shield?branch=master)](https://github.styleci.io/repos/195039183)
 ## Installing
 
 ```shell
