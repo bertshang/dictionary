@@ -1,27 +1,36 @@
 <?php
 
+/*
+ * This file is part of the bertshang/dictionary.
+ *
+ * (c) bertshang <359352960@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Bertshang\Dictionary;
 
 use Bertshang\Dictionary\Models\Dicttype;
-use Bertshang\Dictionary\Models\Dicttag;
 use Bertshang\Dictionary\Models\Dictinfo;
 use Illuminate\Support\Facades\Cache;
-use Bertshang\Dictionary\Exceptions\InvalidArgumentException;
 use Bertshang\Dictionary\Exceptions\LogicException;
 
 /**
- * Class Dictionary
- * @package Bertshang\Dictionary
+ * Class Dictionary.
  */
-class Dictionary {
+class Dictionary
+{
     /**
-     * @var $dictKeys
+     * @var
      * 缓存的字典
      */
     protected static $dictKeys;
+
     protected static $dictTypes;
 
-    private static function init() {
+    private static function init()
+    {
         $keys = Cache::get('dict');
         $types = Cache::get('type');
         if ($keys) {
@@ -36,52 +45,55 @@ class Dictionary {
         }
     }
 
-
-
     /**
-     * 从数据库中获取所有的字典
+     * 从数据库中获取所有的字典.
      */
-    public static function getDictionKeysFromDb() {
+    public static function getDictionKeysFromDb()
+    {
         $info = Dictinfo::
         //where('status', Dictinfo::STATUS_ON)
-        select('id','value','dicttag_id','dicttype_id','status')
+        select('id', 'value', 'dicttag_id', 'dicttype_id', 'status')
             ->get();
 
         $data = $info->groupBy([
-
             'dicttype_id',
             'dicttag_id',
         ]);
 
-
         $data = $data->toArray();
         Cache::forever('dict', $data);
         self::$dictKeys = $data;
+
         return $data;
     }
 
-    public static function getDictionTypesFromDb() {
-        $data = Dicttype::with("children:id,name,status,dicttype_id")->select('id', 'type','status')->get()->toArray();
+    public static function getDictionTypesFromDb()
+    {
+        $data = Dicttype::with('children:id,name,status,dicttype_id')->select('id', 'type', 'status')->get()->toArray();
         Cache::forever('type', $data);
         self::$dictTypes = $data;
+
         return $data;
     }
 
     /**
      * @param $key
+     *
      * @return mixed
+     *
      * @throws LogicException
-     * 获取某种类型字典的数据
+     *                        获取某种类型字典的数据
      */
-    public function getKey($type, $key, $status = false) {
+    public function getKey($type, $key, $status = false)
+    {
         if (!self::$dictKeys) {
             self::init();
         }
 
         $keys = self::$dictKeys;
 
-        if(!isset($keys[$type][$key])) {
-            throw new LogicException('not found the key '. $key);
+        if (!isset($keys[$type][$key])) {
+            throw new LogicException('not found the key '.$key);
         }
 
         $result = $keys[$type][$key];
@@ -91,9 +103,8 @@ class Dictionary {
         }
 
         if (!$status) {
-
             $filtered = collect($result)->filter(function ($item) {
-                return $item['status'] == 0;
+                return 0 == $item['status'];
             });
 
             $result = $filtered->all();
@@ -102,7 +113,8 @@ class Dictionary {
         return $result;
     }
 
-    public function getTypes() {
+    public function getTypes()
+    {
         if (!self::$dictTypes) {
             self::init();
         }
@@ -112,12 +124,13 @@ class Dictionary {
         return $types;
     }
 
-
-    public function getAll() {
+    public function getAll()
+    {
         $keys = Cache::get('dict');
 
         if ($keys) {
             self::$dictKeys = $keys;
+
             return self::$dictKeys;
         } else {
             return self::getDictionKeysFromDb();
@@ -125,9 +138,10 @@ class Dictionary {
     }
 
     /**
-     * 清除缓存
+     * 清除缓存.
      */
-    public function clearCache() {
+    public function clearCache()
+    {
         Cache::forget('dict');
         Cache::forget('type');
     }
