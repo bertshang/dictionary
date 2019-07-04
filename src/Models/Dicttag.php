@@ -28,6 +28,10 @@ class Dicttag extends Model {
         static::creating(function() {
             clearCache();
         });
+
+        static::updating(function() {
+            clearCache();
+        });
     }
     /**
      * @return mixed

@@ -15,7 +15,7 @@ if (! function_exists('clearCache')) {
      */
     function clearCache()
     {
-        return app('dictionary')->clearCache;
+        return app('dictionary')->clearCache();
     }
 }
 
@@ -24,5 +24,13 @@ if (! function_exists('getAll')) {
     function getAll()
     {
         return app('dictionary')->getAll();
+    }
+}
+
+if (! function_exists('getTypes')) {
+
+    function getTypes()
+    {
+        return app('dictionary')->getTypes();
     }
 }

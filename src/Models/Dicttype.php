@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dicttype extends Model {
 
     public $timestamps = true;
-
+    protected $guarded = [];
     protected static function boot()
     {
         parent::boot();
@@ -28,12 +28,17 @@ class Dicttype extends Model {
         static::creating(function() {
             clearCache();
         });
+
+        static::updating(function() {
+            clearCache();
+        });
     }
+
     /**
      * @return mixed
      */
-    public function tag() {
-        return $this->hasMany(Dicttype::class);
+    public function children() {
+        return $this->hasMany(Dicttag::class);
     }
 
     /**

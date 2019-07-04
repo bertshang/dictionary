@@ -25,7 +25,7 @@ class Dictionary {
         $keys = Cache::get('dict');
         $types = Cache::get('type');
         if ($keys) {
-           self::$dictKeys = $keys;
+            self::$dictKeys = $keys;
         } else {
             self::getDictionKeysFromDb();
         }
@@ -43,27 +43,25 @@ class Dictionary {
      */
     public static function getDictionKeysFromDb() {
         $info = Dictinfo::
-                    //where('status', Dictinfo::STATUS_ON)
-                    select('id','value','dicttag_id')
-                    ->get();
+        //where('status', Dictinfo::STATUS_ON)
+        select('id','value','dicttag_id','dicttype_id','status')
+            ->get();
 
         $data = $info->groupBy([
-            function ($item) {
-                return Dicttype::where('id', $item['dicttype_id'])->value('type');
-            },
 
-            function ($item) {
-                return Dicttag::where('id', $item['dicttag_id'])->value('name');
-            },
-        ], $preserveKeys = true);
+            'dicttype_id',
+            'dicttag_id',
+        ]);
 
+
+        $data = $data->toArray();
         Cache::forever('dict', $data);
         self::$dictKeys = $data;
         return $data;
     }
 
     public static function getDictionTypesFromDb() {
-        $data = Dicttype::with('tag:id,name')->select('id', 'type')->get()->toArray();
+        $data = Dicttype::with("children:id,name,status,dicttype_id")->select('id', 'type','status')->get()->toArray();
         Cache::forever('type', $data);
         self::$dictTypes = $data;
         return $data;
@@ -75,12 +73,13 @@ class Dictionary {
      * @throws LogicException
      * 获取某种类型字典的数据
      */
-    public function getKey($type='系统资料', $key, $status = false) {
+    public function getKey($type, $key, $status = false) {
         if (!self::$dictKeys) {
             self::init();
         }
 
         $keys = self::$dictKeys;
+
         if(!isset($keys[$type][$key])) {
             throw new LogicException('not found the key '. $key);
         }
@@ -93,7 +92,7 @@ class Dictionary {
 
         if (!$status) {
 
-            $filtered = $result->filter(function ($item) {
+            $filtered = collect($result)->filter(function ($item) {
                 return $item['status'] == 0;
             });
 
@@ -103,7 +102,7 @@ class Dictionary {
         return $result;
     }
 
-    public function getType() {
+    public function getTypes() {
         if (!self::$dictTypes) {
             self::init();
         }
