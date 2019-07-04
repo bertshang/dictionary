@@ -12,6 +12,7 @@ class DictionaryServiceProvider extends ServiceProvider {
     /**
      * Bootstrap the application services.
      */
+    protected $defer = true;
     public function boot()
     {
         if ($this->app->runningInConsole()) {
@@ -30,6 +31,16 @@ class DictionaryServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app->bind('dictionary', Dictionary::class);
+        $this->app->singleton(Dictionary::class, function(){
+            return new Dictionary();
+        });
+
+        $this->app->alias(Dictionary::class, 'dictionary');
+        //$this->app->bind('dictionary', Dictionary::class);
+    }
+
+    public function provides()
+    {
+        return [Dictionary::class, 'dictionary'];
     }
 }

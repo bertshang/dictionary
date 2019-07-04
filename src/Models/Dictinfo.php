@@ -14,6 +14,22 @@ class Dictinfo extends Model {
     const STATUS_OFF = 1;
     public $timestamps = true;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function() {
+            clearCache();
+        });
+
+        static::saving(function() {
+            clearCache();
+        });
+
+        static::creating(function() {
+            clearCache();
+        });
+    }
     /**
      * @return mixed
      */
@@ -33,7 +49,7 @@ class Dictinfo extends Model {
      * @param array $data
      * @return bool
      */
-    public function create(array $data) {
+    public function add(array $data) {
         try {
             self::create($data);
             return true;
@@ -47,7 +63,7 @@ class Dictinfo extends Model {
      * @param $data
      * @return bool
      */
-    public function update($id, $data) {
+    public function edit($id, $data) {
         try {
             self::where('id', $id)->update($data);
 

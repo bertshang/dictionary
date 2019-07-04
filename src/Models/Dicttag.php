@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\Model;
  * Class Dicttype
  * @package Bertshang\Dictionary
  */
-class Dicttype extends Model {
-
+class Dicttag extends Model {
     public $timestamps = true;
+
 
     protected static function boot()
     {
         parent::boot();
 
-        static::deleting(function($dicttype) {
+        static::deleting(function($dicttag) {
             clearCache();
-            $dicttype->tag()->delete();
+            $dicttag->info()->delete();
         });
 
         static::saving(function() {
@@ -32,8 +32,8 @@ class Dicttype extends Model {
     /**
      * @return mixed
      */
-    public function tag() {
-        return $this->hasMany(Dicttype::class);
+    public function info() {
+        return $this->hasMany(Dictinfo::class);
     }
 
     /**
@@ -41,7 +41,7 @@ class Dicttype extends Model {
      * @return mixed
      */
     public function exists($name) {
-        return self::where('type', $name)->exists();
+        return self::where('name', $name)->exists();
     }
 
     /**
@@ -72,8 +72,8 @@ class Dicttype extends Model {
         }
     }
 
-    public function remove($id) {
-        return self::where('id', $id)->delete();
+    public function remove($name) {
+        return self::where('name', $name)->delete();
     }
 
 }

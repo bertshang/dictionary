@@ -30,6 +30,7 @@ class CacheClearCommand extends Command
     {
 
         Cache::forget('dict');
+        Cache::forget('type');
         $this->info('dict Cache cleared successful.');
     }
 }

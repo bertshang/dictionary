@@ -15,7 +15,16 @@ class CreateDictionaryTable extends Migration
     {
         Schema::create('dicttypes', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('type', 64)->unique();
+            $table->integer('status');
+            $table->integer('sort');
+            $table->timestamps();
+        });
+
+        Schema::create('dicttags', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('name', 128)->unique();
+            $table->integer('dicttype_id');
             $table->integer('user_id');
             $table->integer('status');
             $table->integer('sort');
@@ -25,6 +34,7 @@ class CreateDictionaryTable extends Migration
         Schema::create('dictinfos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('value', 128)->unique();
+            $table->integer('dicttag_id');
             $table->integer('dicttype_id');
             $table->integer('user_id');
             $table->integer('status');
