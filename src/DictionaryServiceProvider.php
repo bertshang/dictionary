@@ -14,7 +14,7 @@ class DictionaryServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        if ($this->app->runninmigrationsgInConsole()) {
+        if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../database/migrations' => database_path('migrations'),
             ], 'migrations');
