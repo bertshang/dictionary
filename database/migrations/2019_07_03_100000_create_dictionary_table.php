@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the bertshang/dictionary.
+ *
+ * (c) bertshang <359352960@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -8,8 +17,6 @@ class CreateDictionaryTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -45,12 +52,11 @@ class CreateDictionaryTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('dicttype');
-        Schema::dropIfExists('dictinfo');
+        Schema::dropIfExists('dicttypes');
+        Schema::dropIfExists('dicttags');
+        Schema::dropIfExists('dictinfos');
     }
 }
