@@ -44,7 +44,7 @@ class Dictionary {
     public static function getDictionKeysFromDb() {
         $info = Dictinfo::
         //where('status', Dictinfo::STATUS_ON)
-        select('id','value','dicttag_id','dicttype_id','status')
+        select('id','value','dicttag_id','dicttype_id','status','user_id', 'created_at', 'updated_at')
             ->get();
 
         $data = $info->groupBy([
