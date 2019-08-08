@@ -24,6 +24,9 @@ class Dictinfo extends Model
 
     public $timestamps = true;
 
+    protected $fillable = [
+        'value','dicttag_id','dicttype_id','user_id','status','sort','remark'
+    ];
     protected static function boot()
     {
         parent::boot();
