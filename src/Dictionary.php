@@ -52,7 +52,7 @@ class Dictionary
     {
         $info = Dictinfo::
         //where('status', Dictinfo::STATUS_ON)
-        select('id','value','dicttag_id','dicttype_id','status','user_id', 'created_at', 'updated_at')
+        select('id', 'value', 'dicttag_id', 'dicttype_id', 'status', 'user_id', 'created_at', 'updated_at')
             ->get();
 
         $data = $info->groupBy([
