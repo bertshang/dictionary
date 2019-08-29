@@ -90,19 +90,27 @@ class Dictionary
             self::init();
         }
 
+
         $keys = self::$dictKeys;
 
-        if (!isset($keys[$type][$key])) {
-            throw new LogicException('not found the key '.$key);
+        if (!isset($keys[$type])) {
+            throw new LogicException('not found the type '.$type);
         }
 
-        $result = $keys[$type][$key];
+        if (!isset($keys[$type][$key])) {
+            //throw new LogicException('not found the key '.$key);
+            $result = [];
+        } else {
+            $result = $keys[$type][$key];
+        }
+
+
 
         if (!$result) {
-            return null;
+            return [];
         }
 
-        if (!$status) {
+        if (!$status && $result) {
             $filtered = collect($result)->filter(function ($item) {
                 return 0 == $item['status'];
             });
