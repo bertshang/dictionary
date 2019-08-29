@@ -90,7 +90,6 @@ class Dictionary
             self::init();
         }
 
-
         $keys = self::$dictKeys;
 
         if (!isset($keys[$type])) {
@@ -103,8 +102,6 @@ class Dictionary
         } else {
             $result = $keys[$type][$key];
         }
-
-
 
         if (!$result) {
             return [];
